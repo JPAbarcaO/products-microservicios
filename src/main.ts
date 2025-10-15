@@ -13,10 +13,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(env.port);
+  await app.listen(env.productsMicroservicesPort);
 
-  app.setGlobalPrefix('api');
 
-  logger.log(`Application running on port ${env.port}`);
+  logger.log(`Application running on port ${env.productsMicroservicesPort}`);
 }
 bootstrap();
