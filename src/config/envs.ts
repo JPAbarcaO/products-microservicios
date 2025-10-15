@@ -3,16 +3,14 @@ import 'dotenv/config';
 import * as joi from 'joi';
 
 interface EnvVars {
-  PRODUCT_MICROSERVICES_PORT: number;
-  PRODUCT_MICROSERVICES_HOST: string;
+  NATS_SERVERS: string;
   PORT: number;
 }
 
 const envVarsSchema = joi
   .object({
     PORT: joi.number().required(),
-    PRODUCT_MICROSERVICES_PORT: joi.number().required(),
-    PRODUCT_MICROSERVICES_HOST: joi.string().required(),
+    NATS_SERVERS: joi.string().required(),
   })
   .unknown(true);
 
@@ -26,6 +24,5 @@ const envVars: EnvVars = value;
 
 export const env = {
   port: envVars.PORT,
-  productsMicroservicesPort: envVars.PRODUCT_MICROSERVICES_PORT,
-  productsMicroservicesHost: envVars.PRODUCT_MICROSERVICES_HOST,
+  natsServers: envVars.NATS_SERVERS,
 };

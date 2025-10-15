@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Query } from '@nestjs/common';
 import { ClientProxy, MessagePattern } from '@nestjs/microservices';
+import { PaginationDto } from 'src/common';
 import { PRODUCT_SERVICE } from 'src/config';
 
 
@@ -7,30 +8,31 @@ import { PRODUCT_SERVICE } from 'src/config';
 export class ProductsController {
   constructor(
     @Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy,
-  ) {}
+  ) { }
 
   @Get()
-  findAllProducts() {
-    return this.productsClient.send({ cmd: 'find_all_products' }, {});
+  findAllProducts(@Query() paginationDTO : PaginationDto) {
+    return this.productsClient.send({ cmd: 'find_all_products' }, { paginationDTO });
   }
 
   @Post()
   createProduct() {
-    return 'This action adds a new product';
+    return this.productsClient.send({ cmd: 'create_product' }, {});
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return `This action returns a #${id} product`;
+    return this.productsClient.send({ cmd: 'find_one_product' }, { id });
   }
+
 
   @Delete(':id')
   deleteProduct(@Param('id') id: string) {
-    return `This action removes a #${id} product`;
+    return this.productsClient.send({ cmd: 'delete_product' }, { id });
   }
 
   @Patch(':id')
   patchProduct(@Param('id') id: string, @Body() body: any) {
-    return `This action updates a #${id} product`;
+    return this.productsClient.send({ cmd: 'update_product' }, { id, ...body });
   }
 }

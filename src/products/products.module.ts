@@ -12,7 +12,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: PRODUCT_SERVICE,
         transport: Transport.NATS,
         options: {
-          servers: "nats://localhost:4222"
+          servers: env.natsServers.split(','),
         },
       },
     ]),
